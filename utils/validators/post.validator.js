@@ -35,18 +35,11 @@ export const addLikeValidator = [
 
 export const deletedLikeValidator = [
   param('id').custom(async (id, { req }) => {
-    const post = await Post.findOne({ _id: id, user: req.user._id });
-    if (!post) throw new BadRequest('Post not found or you are not the owner of this post');
+    const post = await Post.findById(id);
+    if (!post) throw new BadRequest('Post not found');
+    if(!post.likes.includes(req.user._id)) throw new BadRequest('You have not liked this post');
     return true;
   }),
-  body('user').isMongoId().withMessage('user required and must be mongoId')
-    .custom(async (id,{req}) => {
-      const user = await User.findById(id);
-      if (!user) throw new BadRequest('User not found');
-      const post = await Post.findById(req.params.id);
-      if (!post.likes.includes(id)) throw new BadRequest('User not liked this post');
-      return true;
-    }),
   validatorMiddleware,
 ]
 

@@ -15,6 +15,7 @@ import {
   createPost,
   deletePost,
   getAllLikes,
+  getAllMyPosts,
   getAllPosts,
   getSpecificPost,
   removeLike,
@@ -22,7 +23,7 @@ import {
 } from "../controller/post.controller.js";
 
 router.post(
-  '/',
+  '/add',
   protectRoutes,
   allowTo('user'),
   createPostValidator,
@@ -30,7 +31,7 @@ router.post(
 );
 
 router.patch(
-  '/:id',
+  '/update/:id',
   protectRoutes,
   allowTo('user'),
   updatePostValidator,
@@ -38,7 +39,7 @@ router.patch(
 );
 
 router.delete(
-  '/:id',
+  '/delete/:id',
   protectRoutes,
   allowTo('user'),
   updatePostValidator,
@@ -46,14 +47,21 @@ router.delete(
 );
 
 router.get(
-  '/',
+  '/all/following',
   protectRoutes,
   allowTo('user'),
   getAllPosts
 );
 
 router.get(
-  '/:id',
+  '/all/my-posts',
+  protectRoutes,
+  allowTo('user'),
+  getAllMyPosts
+);
+
+router.get(
+  '/one/:id',
   protectRoutes,
   allowTo('user'),
   updatePostValidator,
@@ -80,7 +88,7 @@ router.get(
   '/:id/all-like',
   protectRoutes,
   allowTo('user'),
-  deletedLikeValidator,
+  updatePostValidator,
   getAllLikes
 );
 
