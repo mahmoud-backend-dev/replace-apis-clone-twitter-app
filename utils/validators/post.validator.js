@@ -19,17 +19,11 @@ export const updatePostValidator = [
 ];
 
 export const addLikeValidator = [
-  param('id').custom(async (id, { req }) => {
-    const post = await Post.findOne({ _id: id, user: req.user._id });
-    if (!post) throw new BadRequest('Post not found or you are not the owner of this post');
+  param('id').custom(async (id) => {
+    const post = await Post.findById(id);
+    if (!post) throw new BadRequest('Post not found');
     return true;
   }),
-  body('user').isMongoId().withMessage('user required and must be mongoId')
-    .custom(async (id) => {
-      const user = await User.findById(id);
-      if (!user) throw new BadRequest('User not found');
-      return true;
-    }),
   validatorMiddleware,
 ];
 

@@ -27,7 +27,7 @@ const errorHandlerMiddleware = (err, req, res,next) => {
         customError.msg = `Expired token, please login again...`;
         customError.statusCode = StatusCodes.UNAUTHORIZED;
     }
-    res.status(customError.statusCode).json({ message: customError.message });
+    res.status(customError.statusCode).json({ message: customError.message, stack: err.stack });
 };
 
 export default errorHandlerMiddleware;

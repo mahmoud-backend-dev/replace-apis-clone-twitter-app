@@ -60,12 +60,21 @@ export const getAllMyPosts = asyncHandler(async (req, res) => {
     },
     {
       $lookup: {
+        from: 'reposts',
+        localField: 'user',
+        foreignField: 'user',
+        as: 'reposts',
+      }
+    },
+    {
+      $lookup: {
         from: 'comments',
         localField: '_id',
         foreignField: 'post',
         as: 'comments',
       }
-    }, {
+    },
+    {
       $project: {
         text: 1,
         image: 1,
@@ -76,6 +85,8 @@ export const getAllMyPosts = asyncHandler(async (req, res) => {
         "comments.text": 1,
         "comments.user": 1,
         "comments.likes": 1,
+        "reposts._id": 1,
+        "reposts.user": 1,
         numberOfComments: { $size: '$comments' },
       }
     },
@@ -123,7 +134,7 @@ export const deletePost = asyncHandler(async (req, res) => {
   });
 });
 
-export const  addLike = asyncHandler(async (req, res) => {
+export const addLike = asyncHandler(async (req, res) => {
   const io = req.app.get('IO');
   const post = await Post.findByIdAndUpdate(
     req.params.id,
@@ -156,6 +167,7 @@ export const getAllLikes = asyncHandler(async (req, res) => {
     path: 'likes',
     select: 'firstName lastName image',
   });
+  if (!post) throw new NotFound('Post not found');
   res.status(StatusCodes.OK).json({
     status: 'success',
     likes: post.likes,

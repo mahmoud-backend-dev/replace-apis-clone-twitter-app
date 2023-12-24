@@ -11,7 +11,7 @@ import express, { json, urlencoded, static as static_ } from 'express';
 const app = express();
 const port = process.env.PORT || 1812;
 const httpServer = createServer(app);
-const io = socketConnection(httpServer)
+const io = await socketConnection(httpServer)
 import mountRoutes from './routes/index.js';
 
 

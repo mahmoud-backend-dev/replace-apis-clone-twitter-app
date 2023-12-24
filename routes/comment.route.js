@@ -27,7 +27,7 @@ router.post(
 );
 
 router.get(
-  '/all/:id',
+  '/all',
   protectRoutes,
   allowTo('user'),
   getAllCommentsValidator,

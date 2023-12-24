@@ -13,7 +13,10 @@ const CommentSchema = new Schema({
   post: {
     type: Schema.Types.ObjectId,
     ref: 'Post',
-    required: [true, 'post is required'],
+  },
+  repost: {
+    type: Schema.Types.ObjectId,
+    ref: 'Repost',
   },
   likes: [{
     type: Schema.Types.ObjectId,
