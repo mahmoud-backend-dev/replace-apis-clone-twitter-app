@@ -3,6 +3,7 @@ import postRoute from './post.route.js';
 import commentRoute from './comment.route.js';
 import chatRoute from './chat.route.js';
 import repostRoute from './repost.route.js';
+import userRoute from './user.route.js';
 
 export default (app) => {
   app.use('/api/v1/auth', authRoute);
@@ -10,4 +11,5 @@ export default (app) => {
   app.use('/api/v1/comments', commentRoute);
   app.use('/api/v1/chats', chatRoute);
   app.use('/api/v1/reposts', repostRoute);
+  app.use('/api/v1/users', userRoute);
 };

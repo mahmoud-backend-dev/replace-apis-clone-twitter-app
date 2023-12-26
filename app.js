@@ -56,6 +56,7 @@ app.use(express.static('uploads'));
 
 
 app.set('IO', io);
+
 // Mounts Routes
 mountRoutes(app);
 
