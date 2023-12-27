@@ -15,10 +15,7 @@ const protectRoutes = asyncHandler(async (req, res, next) => {
     const decoded = verify(token, process.env.JWT_SECRET);
     
     // 3 ) Check user if exists or not by given token
-    const user = await User.findById(decoded.userId).populate({
-        path: 'role',
-        select:'permissions store'
-    });
+    const user = await User.findById(decoded.userId)
     if (!user)
         throw new UnauthenticatedError('The user that belong to this token does no longer exist')
     
