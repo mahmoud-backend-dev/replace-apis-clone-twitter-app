@@ -4,7 +4,7 @@ import Chat from "../models/Chat.js";
 import User from '../models/User.js';
 
 const checkNumber = (number) => {
-  if (typeof number !== 'number')
+  if (typeof number !== 'string')
     return false
   return true;
 }

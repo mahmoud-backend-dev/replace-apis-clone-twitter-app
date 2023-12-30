@@ -16,7 +16,7 @@ const chatSchema = new Schema({
     required: [true, 'Message is required']
   },
   room: {
-    type: Number
+    type: String
   },
 }, { timestamps: true });
 
