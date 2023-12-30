@@ -5,7 +5,7 @@ import protectRoutes from "../middleware/auth.middleware.js";
 import { getChat } from "../controller/chat.controller.js";
 
 router.get(
-  '/one/:id',
+  '/one/:idOne/:idTwo',
   protectRoutes,
   getChat
 )

@@ -15,7 +15,9 @@ const chatSchema = new Schema({
     type: String,
     required: [true, 'Message is required']
   },
+  room: {
+    type: Number
+  },
 }, { timestamps: true });
-
 
 export default model('Chat', chatSchema);
