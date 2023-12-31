@@ -3,13 +3,14 @@ import { StatusCodes } from 'http-status-codes';
 import Chat from '../models/Chat.js';
 
 export const getChat = asyncHandler(async (req, res) => {
+  const { idOne, idTwo } = req.params;
   const chat = await Chat
     .find(
       {
         $or:
           [
-            { sender: req.params.idOne, recipient: req.params.idTwo },
-            { sender: req.params.idOne, recipient: req.params.idTwo },
+            { sender: idOne, recipient: idTwo },
+            { sender: idTwo, recipient: idOne },
           ]
       }
     )

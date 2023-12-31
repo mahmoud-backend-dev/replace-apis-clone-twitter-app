@@ -68,13 +68,18 @@ const userSchema = new Schema({
   banExpired: Date,
   isBanned: {
     type: Boolean,
-    default:false
+    default: false
   },
 
   banForever: {
     type: Boolean,
     default: false
   },
+
+  privateAccount: {
+    type: Boolean,
+    default: false
+  }
 
 }, { timestamps: true });
 
