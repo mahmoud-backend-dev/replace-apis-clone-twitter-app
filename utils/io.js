@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import { Server } from "socket.io";
 import Chat from "../models/Chat.js";
 import User from '../models/User.js';
+import { removeDuplicatedRoom } from '../controller/chat.controller.js';
 
 const checkNumber = (number) => {
   if (typeof number !== 'string')
@@ -37,6 +38,12 @@ const validationMessage = async (message) => {
   return message;
 }
 
+const getAllRooms = async (id) => {
+  const chat = await Chat.find({ $or: [{ sender: id }, { recipient: id }]});
+  const rooms = removeDuplicatedRoom(chat);
+  return rooms.map((room) => room.room);
+}
+
 export const socketConnection = asyncHandler(async (server) => {
   const io = new Server(server, { cors: { origin: '*' } });
   io.on('connection', (socket) => {
@@ -56,6 +63,13 @@ export const socketConnection = asyncHandler(async (server) => {
       socket.to(room_id).emit('message', message);
       if (message !== false && checkNumber(room_id)) {
         await Chat.create({...message, room: room_id});
+      }
+    })
+    socket.on('get_rooms', async (id) => {
+      console.log('get_rooms', id);
+      if (checkNumber(id)) {
+        const rooms = await getAllRooms(id);
+        io.to(socket.id).emit('get_rooms', rooms);
       }
     })
     socket.on('disconnect', () => {

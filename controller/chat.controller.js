@@ -7,7 +7,7 @@ import Chat from '../models/Chat.js';
 
 
 // Remove duplicates based on the "room" property
-const removeDuplicatedRoom = (arr) =>
+export const removeDuplicatedRoom = (arr) =>
   arr.filter(
     (object, index, self) =>
       index === self.findIndex((room) => room.room === object.room)
