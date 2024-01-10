@@ -18,6 +18,7 @@ import {
   getFollowersUserById,
   getFollowingMe,
   getFollowingUserById,
+  getAllUsers,
 } from "../controller/user.controller.js";
 
 router.patch(
@@ -71,5 +72,12 @@ router.patch(
   changePasswordValidator,
   changePassword
 );
+
+router.get(
+  '/all',
+  protectRoutes,
+  allowTo('user'),
+  getAllUsers
+)
 
 export default router;

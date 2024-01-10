@@ -99,4 +99,13 @@ export const changePassword = asyncHandler(async (req, res) => {
     success: "success",
     message: 'Password changed successfully',
   });
+});
+
+export const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().select('-password');
+  res.status(StatusCodes.OK).json({
+    success: "success",
+    count: users.length,
+    users,
+  });
 })

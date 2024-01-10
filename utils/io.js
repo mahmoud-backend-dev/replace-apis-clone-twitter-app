@@ -4,7 +4,7 @@ import Chat from "../models/Chat.js";
 import User from '../models/User.js';
 import { removeDuplicatedRoom } from '../controller/chat.controller.js';
 
-const checkNumber = (number) => {
+const checkString = (number) => {
   if (typeof number !== 'string')
     return false
   return true;
@@ -51,7 +51,7 @@ export const socketConnection = asyncHandler(async (server) => {
     let room_id;
     socket.on('join_room', async (number_id) => {
       console.log('join_room', number_id);
-      if (checkNumber(number_id)) {
+      if (checkString(number_id)) {
         room_id = number_id;
         socket.join(number_id);
       }
@@ -61,13 +61,13 @@ export const socketConnection = asyncHandler(async (server) => {
       message = await validationMessage(message);
       io.to(socket.id).emit('my_message', message);
       socket.to(room_id).emit('message', message);
-      if (message !== false && checkNumber(room_id)) {
+      if (message !== false && checkString(room_id)) {
         await Chat.create({...message, room: room_id});
       }
     })
     socket.on('get_rooms', async (id) => {
       console.log('get_rooms', id);
-      if (checkNumber(id)) {
+      if (checkString(id)) {
         const rooms = await getAllRooms(id);
         io.to(socket.id).emit('get_rooms', rooms);
       }
