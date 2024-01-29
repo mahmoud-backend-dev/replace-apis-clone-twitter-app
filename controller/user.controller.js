@@ -103,7 +103,7 @@ export const changePassword = asyncHandler(async (req, res) => {
 
 export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User
-    .find({ $or: [{ verifyResetCodeForSignup: undefined }, { verifyResetCodeForSignup: true }] })
+    .find({_id:{$ne:req.user._id} ,$or: [{ verifyResetCodeForSignup: undefined }, { verifyResetCodeForSignup: true }] })
     .select('-password');
   res.status(StatusCodes.OK).json({
     success: "success",
