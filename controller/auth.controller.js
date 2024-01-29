@@ -59,7 +59,7 @@ export const signup = asyncHandler(async (req, res) => {
       user.verifyResetCodeForSignup = false;
       
       const token = user.createJWTForSignup();
-      const url = `${process.env.BASE_URL_FRONT}/#/confirmSignup?token=${token}`;
+      const url = `${process.env.BASE_URL_FRONT}#/confirmSignup?token=${token}`;
       const mailOpts = {
         to: user.email,
         subject: "Verification Your Account (valid for one hour)"
@@ -93,7 +93,7 @@ export const signup = asyncHandler(async (req, res) => {
 
   const token = user.createJWTForSignup();
 
-  const url = `${process.env.BASE_URL_FRONT}/#/confirmSignup?token=${token}`;
+  const url = `${process.env.BASE_URL_FRONT}#/confirmSignup?token=${token}`;
   const mailOpts = {
     to: user.email,
     subject: "Verification Your Account (valid for one hour)"
@@ -206,7 +206,7 @@ export const forgetPassword = asyncHandler(async (req, res) => {
   user.resetCodeExpiredForPassword = Date.now() + 60 * 60 * 1000;
   user.verifyResetCodeForPassword = false;
   const token = user.createJWTForResetPassword();
-  const url = `${process.env.BASE_URL_FRONT}/#/confirmForgetPassword?token=${token}`;
+  const url = `${process.env.BASE_URL_FRONT}#/confirmForgetPassword?token=${token}`;
   const mailOpts = {
     to: user.email,
     subject: "Verification For Reset Password (valid for one hour)",
