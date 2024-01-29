@@ -102,7 +102,9 @@ export const changePassword = asyncHandler(async (req, res) => {
 });
 
 export const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({ verifyResetCodeForSignup: undefined }).select('-password');
+  const users = await User
+    .find({ $or: [{ verifyResetCodeForSignup: undefined }, { verifyResetCodeForSignup: true }] })
+    .select('-password');
   res.status(StatusCodes.OK).json({
     success: "success",
     count: users.length,
