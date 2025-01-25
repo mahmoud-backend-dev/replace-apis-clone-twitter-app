@@ -1,4 +1,3 @@
-import asyncHandler from 'express-async-handler';
 import { Server } from "socket.io";
 import Chat from "../models/Chat.js";
 import User from '../models/User.js';
@@ -39,12 +38,12 @@ const validationMessage = async (message) => {
 }
 
 const getAllRooms = async (id) => {
-  const chat = await Chat.find({ $or: [{ sender: id }, { recipient: id }]});
+  const chat = await Chat.find({ $or: [{ sender: id }, { recipient: id }] });
   const rooms = removeDuplicatedRoom(chat);
   return rooms.map((room) => room.room);
 }
 
-export const socketConnection = asyncHandler(async (server) => {
+export const socketConnection = (server) => {
   const io = new Server(server, { cors: { origin: '*' } });
   io.on('connection', (socket) => {
     console.log('connected', socket.id);
@@ -62,7 +61,7 @@ export const socketConnection = asyncHandler(async (server) => {
       io.to(socket.id).emit('my_message', message);
       socket.to(room_id).emit('message', message);
       if (message !== false && checkString(room_id)) {
-        await Chat.create({...message, room: room_id});
+        await Chat.create({ ...message, room: room_id });
       }
     })
     socket.on('get_rooms', async (id) => {
@@ -72,6 +71,12 @@ export const socketConnection = asyncHandler(async (server) => {
         io.to(socket.id).emit('get_rooms', rooms);
       }
     })
+
+    socket.on('disconnecting', () => {
+      // still rooms no leave or remove
+      console.log({ rooms: socket.rooms });
+    });
+
     socket.on('disconnect', () => {
       console.log('disconnected', socket.id);
     });
@@ -80,4 +85,4 @@ export const socketConnection = asyncHandler(async (server) => {
     console.error('Socket.IO error:', error.message);
   });
   return io;
-});
+};

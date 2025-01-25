@@ -19,6 +19,3 @@ export default async (mailOpts, template) => {
     html:template,
   });
 };
-
-
-
